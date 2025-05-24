@@ -1,0 +1,24 @@
+name: Siakad-digi-be-dev
+
+on:
+  push:
+    branches: [DEV]
+
+jobs:
+  deploy:
+    environment: DEV
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd siakad-digi-be-dev
+            git pull origin DEV
+            docker compose -f docker-compose-dev.yml down
+            docker image rm siakad-digi-be-dev
+            docker compose -f docker-compose-dev.yml up -d

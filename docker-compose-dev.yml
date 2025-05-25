@@ -10,18 +10,20 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    depends_on: 
+    depends_on:
       - loki
     restart: always
     networks:
       - monitoring
 
   grafana:
-     image: grafana/grafana:latest
-     ports:
+    image: grafana/grafana:latest
+    ports:
       - "3000:3000"
-     networks:
+    networks:
       - monitoring
+    volumes:
+      - grafana-data:/var/lib/grafana
 
   loki:
     image: grafana/loki:2.9.0
@@ -30,17 +32,23 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - monitoring
-  
+    volumes:
+      - loki-data:/loki
+
   promtail:
-       image: grafana/promtail:2.9.0
-       volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - ./promtail-config.yaml:/etc/promtail/promtail.yaml
-       command: -config.file=/etc/promtail/promtail.yaml
-       depends_on: 
-        - loki
-       networks:
-        - monitoring
-        
+    image: grafana/promtail:2.9.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yaml:/etc/promtail/promtail.yaml
+    command: -config.file=/etc/promtail/promtail.yaml
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+
 networks:
   monitoring:
+
+volumes:
+  grafana-data:
+  loki-data:

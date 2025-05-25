@@ -106,7 +106,7 @@ func (r *StudentRepository) FindAll(req *request.FindAllStudentRequest) (*[]api.
 	}
 
 	if req.StartDate != "" && req.EndDate != "" {
-		query.Where("DATE(users.created_at) between ? and ?", req.StartDate, req.EndDate)
+		query.Where("DATE(users.created_at) between (?::date - INTERVAL '1 day') and ?", req.StartDate, req.EndDate)
 	}
 
 	if req.Status == "active" {

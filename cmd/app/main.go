@@ -16,7 +16,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	r.Use(cors.New(*config.GetCorsConfig()))
 	r.Use(handler.ErrorHandler(config.Logger))
 	r.Use(middleware.NewLoggerMiddleware(config.Logger))
 

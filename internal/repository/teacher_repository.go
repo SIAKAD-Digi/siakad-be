@@ -105,7 +105,7 @@ func (r *TeacherRepository) FindAll(req *request.FindAllTeacherRequest) (*[]api.
 	}
 
 	if req.StartDate != "" && req.EndDate != "" {
-		query.Where("DATE(created_at) between ? and ?", req.StartDate, req.EndDate)
+		query.Where("DATE(created_at) between (?::date - INTERVAL '1 day') and ?", req.StartDate, req.EndDate)
 	}
 
 	if req.Status == "active" {

@@ -10,6 +10,7 @@ type StudentDetailApi struct {
 	ProfilePicture  *string `json:"profile_picture"`
 	BirthOfDate     string  `json:"birth_of_date"`
 	Address         string  `json:"address"`
+	Gender          string  `json:"gender"`
 	IsActive        bool    `json:"is_active"`
 	StudentGuardian string  `json:"student_guardian"`
 	CreatedAt       string  `json:"created_at"`

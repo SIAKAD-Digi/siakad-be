@@ -24,6 +24,7 @@ func (r *StudentRepository) Create(req *request.CreateStudentRequest, password s
 		PhoneNumber: req.PhoneNumber,
 		Password:    password,
 		BirthOfDate: req.BirthOfDate,
+		Gender:      req.Gender,
 		Address:     req.Address,
 		RoleId:      constant.STUDENT_ROLE,
 		IsActive:    true,
@@ -61,6 +62,7 @@ func (r *StudentRepository) Update(req *request.UpdateStudentRequest, id string)
 		"email":         req.Email,
 		"phone_number":  req.PhoneNumber,
 		"birth_of_date": req.BirthOfDate,
+		"gender":        req.Gender,
 		"address":       req.Address,
 		"is_active":     *req.IsActive,
 	}
@@ -73,7 +75,7 @@ func (r *StudentRepository) Update(req *request.UpdateStudentRequest, id string)
 
 		userQuery := tx.Model(&user)
 		userQuery.Where("id = ?", id)
-		userQuery.Select("name", "nik", "email", "phone_number", "birth_of_date", "address", "is_active")
+		userQuery.Select("name", "nik", "email", "phone_number", "birth_of_date", "gender", "address", "is_active")
 
 		if err := userQuery.Updates(&userUpdate).Error; err != nil {
 			return err
@@ -130,7 +132,7 @@ func (r *StudentRepository) FindById(id string) api.StudentDetailApi {
 	student := api.StudentDetailApi{}
 
 	query := r.DB.Model(user)
-	query.Select("users.id, users.name , users.nik, users.phone_number, users.email, classes.name as class_name,  users.profile_picture, users.birth_of_date, users.address, users.is_active, students.student_guardian, users.created_at, users.updated_at")
+	query.Select("users.id, users.name , users.nik, users.phone_number, users.email, classes.name as class_name,  users.profile_picture, users.birth_of_date, users.gender, users.address, users.is_active, students.student_guardian, users.created_at, users.updated_at")
 	query.Joins("left join students on students.users_id = users.id")
 	query.Joins("left join classes on classes.id = students.classes_id")
 	query.Where("users.id = ?", id)

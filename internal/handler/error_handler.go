@@ -6,6 +6,7 @@ import (
 	"siakad-digi/internal/exception"
 	"siakad-digi/internal/models/response"
 	"siakad-digi/utils"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -132,6 +133,8 @@ func validationMessage(fe validator.FieldError) string {
 		return "karakter harus berupa angka"
 	case "boolean":
 		return "harus true atau false"
+	case "oneof":
+		return fmt.Sprintf("harus %s", strings.Replace(fe.Param(), " ", " | ", -1))
 	default:
 		return fmt.Sprintf("tag %s not register", fe.Tag())
 	}

@@ -8,6 +8,7 @@ type TeacherDetailApi struct {
 	Email          string  `json:"email"`
 	ProfilePicture *string `json:"profile_picture"`
 	BirthOfDate    string  `json:"birth_of_date"`
+	Gender         string  `json:"gender"`
 	Address        string  `json:"address"`
 	IsActive       bool    `json:"is_active"`
 	IsMarried      bool    `json:"is_married"`

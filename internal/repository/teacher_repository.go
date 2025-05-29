@@ -24,6 +24,7 @@ func (r *TeacherRepository) Create(req *request.CreateTeacherRequest, password s
 		PhoneNumber: req.PhoneNumber,
 		Password:    password,
 		BirthOfDate: req.BirthOfDate,
+		Gender:      req.Gender,
 		Address:     req.Address,
 		RoleId:      constant.TEACHER_ROLE,
 		IsActive:    true,
@@ -61,6 +62,7 @@ func (r *TeacherRepository) Update(req *request.UpdateTeacherRequest, id string)
 		"email":         req.Email,
 		"phone_number":  req.PhoneNumber,
 		"birth_of_date": req.BirthOfDate,
+		"gender":        req.Gender,
 		"address":       req.Address,
 		"is_active":     *req.IsActive,
 	}
@@ -129,7 +131,7 @@ func (r *TeacherRepository) FindById(id string) api.TeacherDetailApi {
 	teacher := api.TeacherDetailApi{}
 
 	query := r.DB.Model(user)
-	query.Select("users.id, users.name , users.nik, users.phone_number, users.email,  users.profile_picture, users.birth_of_date, users.address, users.is_active, teachers.is_married, users.created_at, users.updated_at")
+	query.Select("users.id, users.name , users.nik, users.phone_number, users.email,  users.profile_picture, users.birth_of_date, users.gender, users.address, users.is_active, teachers.is_married, users.created_at, users.updated_at")
 	query.Joins("left join teachers on teachers.users_id = users.id")
 	query.Where("users.id = ?", id)
 	query.Scan(&teacher)

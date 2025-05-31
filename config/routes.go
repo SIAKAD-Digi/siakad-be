@@ -47,6 +47,10 @@ func RegisterRoutes(r *gin.Engine) {
 		TeacherRepository: &teacherRepository,
 		UserRepository:    &userRepository,
 	}
+
+	uploadService := services.UploadService{
+		MinioClient: MinioClient,
+	}
 	// -----------------------------------
 
 	//------- handler --------------------
@@ -62,6 +66,10 @@ func RegisterRoutes(r *gin.Engine) {
 
 	teacherHandler := handler.TeacherHandler{
 		TeacherService: &teacherService,
+	}
+
+	uploadHandler := handler.UploadHandler{
+		UploadService: &uploadService,
 	}
 	// ------------------------------------
 
@@ -84,6 +92,9 @@ func RegisterRoutes(r *gin.Engine) {
 	protected.GET("/teachers/:id", teacherHandler.FindById)
 	protected.GET("/teachers", teacherHandler.FindAll)
 	protected.DELETE("/teachers/:id", teacherHandler.DeleteById)
+
+	// ------ upload --------------------------
+	protected.POST("/upload/images", uploadHandler.UploadImage)
 
 	r.Run()
 }

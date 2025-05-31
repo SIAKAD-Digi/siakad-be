@@ -13,6 +13,7 @@ func main() {
 	config.InitEnv()
 	config.InitLogger()
 	config.ConnectDatabase()
+	config.InitMinio()
 
 	r := gin.Default()
 

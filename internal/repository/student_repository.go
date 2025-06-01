@@ -120,6 +120,7 @@ func (r *StudentRepository) FindAll(req *request.FindAllStudentRequest) (*[]api.
 	}
 
 	query.Where("users.role_id = ?", constant.STUDENT_ROLE)
+	query.Order("users.created_at DESC")
 	query.Count(&total)
 	query.Scopes(utils.Paginate(req.Page, req.Limit)).Scan(&students)
 

@@ -120,6 +120,7 @@ func (r *TeacherRepository) FindAll(req *request.FindAllTeacherRequest) (*[]api.
 
 	query.Where("users.role_id = ?", constant.TEACHER_ROLE)
 	query.Count(&total)
+	query.Order("users.created_at DESC")
 	query.Scopes(utils.Paginate(req.Page, req.Limit)).Scan(&teachers)
 
 	return &teachers, int(total)

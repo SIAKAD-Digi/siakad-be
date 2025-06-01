@@ -20,9 +20,14 @@ jobs:
 
       - name: Build binary
         run: GOOS=linux GOARCH=amd64 go build -o ./main ./cmd/app/main.go
+      
+      - name: Setup SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > key.pem
+          chmod 600 key.pem
 
       - name: Upload binary to VPS via SCP
-        run: scp -i ${{ secrets.SSH_KEY }} ./main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/siakad-digi-be-dev
+        run: scp -i key.pem ./main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/siakad-digi-be-dev
 
   deploy:
     environment: DEV

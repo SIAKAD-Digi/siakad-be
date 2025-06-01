@@ -27,7 +27,7 @@ jobs:
           chmod 600 key.pem
 
       - name: Upload binary to VPS via SCP
-        run: scp -i key.pem ./main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/siakad-digi-be-dev
+        run: scp -i key.pem -o StrictHostKeyChecking=no ./main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/siakad-digi-be-dev
 
   deploy:
     environment: DEV

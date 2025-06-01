@@ -5,10 +5,25 @@ on:
     branches: [DEV]
 
 jobs:
+  prepare:
+    environment: DEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd web/siakad-digi-be-dev
+            sudo systemctl stop siakad-digi-be-dev
+            rm main
+
   build: 
     environment: DEV
     runs-on: ubuntu-latest
-
+    needs: prepare
     steps:
       - name: Checkout source
         uses: actions/checkout@v3

@@ -19,10 +19,10 @@ jobs:
           go-version: '1.24'
 
       - name: Build binary
-        run: GOOS=linux GOARCH=amd64 go build -o main ./cmd/app/main.go
+        run: GOOS=linux GOARCH=amd64 go build -o ./main ./cmd/app/main.go
 
       - name: Upload binary to VPS via SCP
-        run: scp -i ${{ secrets.SSH_KEY }} main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/banana/web/siakad-digi-be-dev
+        run: scp -i ${{ secrets.SSH_KEY }} ./main ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/siakad-digi-be-dev
 
   deploy:
     environment: DEV

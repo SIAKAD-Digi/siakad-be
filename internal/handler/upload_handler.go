@@ -18,11 +18,12 @@ type UploadHandler struct {
 func (h *UploadHandler) UploadImage(ctx *gin.Context) {
 	image, err := ctx.FormFile("image")
 	maxSize := int64(2 * 1024 * 1024)
-	contenType := image.Header.Get("content-type")
-
+	
 	if err != nil {
 		panic(exception.NewBadRequestError("File tidak ditemukan"))
 	}
+	
+	contenType := image.Header.Get("content-type")
 
 	if image.Size > maxSize {
 		panic(exception.NewBadRequestError("File tidak boleh lebih dari 2MB"))

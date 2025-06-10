@@ -36,7 +36,7 @@ func (r *ClassRepository) FindById(id string) (*database.Class, error) {
 func (r *ClassRepository) FindByName(name string) (*database.Class, error) {
 	class := database.Class{}
 
-	err := r.DB.First(&class, "name = ?", name).Error
+	err := r.DB.Unscoped().First(&class, "name = ?", name).Error
 
 	return &class, err
 }

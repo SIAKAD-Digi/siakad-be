@@ -26,7 +26,7 @@ func (r *UserRepository) FindById(id string) (*database.User, error) {
 func (r *UserRepository) FindByNik(nik string) (*database.User, error) {
 	user := database.User{}
 
-	res := r.DB.First(&user, "nik = ?", nik)
+	res := r.DB.Unscoped().First(&user, "nik = ?", nik)
 
 	return &user, res.Error
 }
@@ -34,7 +34,7 @@ func (r *UserRepository) FindByNik(nik string) (*database.User, error) {
 func (r *UserRepository) FindByEmail(email string) (*database.User, error) {
 	user := database.User{}
 
-	res := r.DB.First(&user, "email = ?", email)
+	res := r.DB.Unscoped().First(&user, "email = ?", email)
 
 	return &user, res.Error
 }
@@ -42,7 +42,7 @@ func (r *UserRepository) FindByEmail(email string) (*database.User, error) {
 func (r *UserRepository) FindByPhoneNumber(phoneNumber string) (*database.User, error) {
 	user := database.User{}
 
-	res := r.DB.First(&user, "phone_number = ?", phoneNumber)
+	res := r.DB.Unscoped().First(&user, "phone_number = ?", phoneNumber)
 
 	return &user, res.Error
 }

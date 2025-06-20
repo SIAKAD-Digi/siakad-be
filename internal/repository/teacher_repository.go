@@ -6,6 +6,7 @@ import (
 	"siakad-digi/internal/models/database"
 	"siakad-digi/internal/models/request"
 	"siakad-digi/utils"
+	"strings"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -103,7 +104,7 @@ func (r *TeacherRepository) FindAll(req *request.FindAllTeacherRequest) (*[]api.
 	query := r.DB.Model(&user).Select("id, name, nik, email, is_active, created_at")
 
 	if req.Name != "" {
-		query.Where("users.name like ?", req.Name+"%")
+		query.Where("LOWER(users.name) like ?", "%" +strings.ToLower(req.Name)+"%")
 	}
 
 	if req.StartDate != "" && req.EndDate != "" {

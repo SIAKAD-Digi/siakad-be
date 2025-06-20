@@ -6,6 +6,7 @@ import (
 	"siakad-digi/internal/models/database"
 	"siakad-digi/internal/models/request"
 	"siakad-digi/utils"
+	"strings"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -104,7 +105,7 @@ func (r *StudentRepository) FindAll(req *request.FindAllStudentRequest) (*[]api.
 	query.Joins("left join students on students.users_id = users.id").Joins("left join classes on classes.id = students.classes_id")
 
 	if req.Name != "" {
-		query.Where("users.name like ?", req.Name+"%")
+		query.Where("LOWER(users.name) like ?", "%"+strings.ToLower(req.Name)+"%")
 	}
 
 	if req.StartDate != "" && req.EndDate != "" {

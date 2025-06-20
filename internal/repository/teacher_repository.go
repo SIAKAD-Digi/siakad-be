@@ -75,7 +75,7 @@ func (r *TeacherRepository) Update(req *request.UpdateTeacherRequest, id string)
 
 		userQuery := tx.Model(&user)
 		userQuery.Where("id = ?", id)
-		userQuery.Select("name", "nik", "email", "phone_number", "birth_of_date", "address", "is_active")
+		userQuery.Select("name", "nik", "email", "phone_number", "birth_of_date", "gender", "address", "is_active")
 
 		if err := userQuery.Updates(&userUpdate).Error; err != nil {
 			return err

@@ -37,7 +37,7 @@ func (s *ClassService) Update(req *request.CreateOrUpdateClassRequest, id string
 	s.ClassRepository.Update(req, id)
 }
 
-func (s *ClassService) FindAll(req *request.FindAllClassRequest) (*[]api.ClassAPi, int) {
+func (s *ClassService) FindAll(req *request.FindAllClassRequest) (*[]api.ClassApi, int) {
 	classes, total := s.ClassRepository.FindAll(req)
 
 	return classes, total
@@ -51,4 +51,16 @@ func (s *ClassService) DeleteById(id string) {
 	}
 
 	s.ClassRepository.DeleteById(id)
+}
+
+func (s *ClassService) FindById(id string) *api.ClassApi {
+	class, _ := s.ClassRepository.FindById(id)
+
+	if class.ID == "" {
+		panic(exception.NewNotFoundError("Kelas tidak di temukan"))
+	}
+
+	classApi, _ := s.ClassRepository.FindById(id)
+
+	return classApi
 }

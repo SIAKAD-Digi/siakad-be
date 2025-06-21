@@ -95,3 +95,15 @@ func (h *ClassHandler) DeleteById(ctx *gin.Context) {
 		Message: "Sukses menghapus kelas",
 	})
 }
+
+func (h *ClassHandler) FindById(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	class := h.ClassService.FindById(id)
+
+	ctx.JSON(http.StatusOK, response.CommonResponse{
+		Success: true,
+		Message: "Success",
+		Data:    class,
+	})
+}

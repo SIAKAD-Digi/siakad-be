@@ -5,6 +5,7 @@ import (
 	"siakad-digi/internal/models/database"
 	"siakad-digi/internal/models/request"
 	"siakad-digi/utils"
+	"strings"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -25,12 +26,13 @@ func (r *ClassRepository) Create(req *request.CreateOrUpdateClassRequest) (strin
 	return class.ID, err
 }
 
-func (r *ClassRepository) FindById(id string) (*database.Class, error) {
+func (r *ClassRepository) FindById(id string) (*api.ClassApi, error) {
 	class := database.Class{}
+	classApi := api.ClassApi{}
 
-	err := r.DB.First(&class, "id = ?", id).Error
+	err := r.DB.Model(class).First(&classApi, "id = ?", id).Error
 
-	return &class, err
+	return &classApi, err
 }
 
 func (r *ClassRepository) FindByName(name string) (*database.Class, error) {
@@ -49,15 +51,15 @@ func (r *ClassRepository) Update(req *request.CreateOrUpdateClassRequest, id str
 	return class.ID, err
 }
 
-func (r *ClassRepository) FindAll(req *request.FindAllClassRequest) (*[]api.ClassAPi, int) {
-	classes := []api.ClassAPi{}
+func (r *ClassRepository) FindAll(req *request.FindAllClassRequest) (*[]api.ClassApi, int) {
+	classes := []api.ClassApi{}
 	class := database.Class{}
 	total := int64(0)
 
 	query := r.DB.Model(&class)
 
 	if req.Name != "" {
-		query.Where("name like ?", req.Name+"%")
+		query.Where("LOWER(name) like ?", "%"+strings.ToLower(req.Name)+"%")
 	}
 
 	if req.StartDate != "" && req.EndDate != "" {

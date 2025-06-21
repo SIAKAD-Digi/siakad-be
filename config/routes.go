@@ -112,6 +112,7 @@ func RegisterRoutes(r *gin.Engine) {
 	protected.POST("/classes", classHandler.Create)
 	protected.PUT("/classes/:id", classHandler.Update)
 	protected.GET("/classes", classHandler.FindAll)
+	protected.GET("/classes/:id", classHandler.FindById)
 	protected.DELETE("/classes/:id", classHandler.DeleteById)
 
 	r.Run()
